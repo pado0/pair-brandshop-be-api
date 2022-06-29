@@ -1,4 +1,4 @@
-package minishop.project.security;
+package minishop.project.config.security;
 
 
 import org.springframework.security.core.Authentication;

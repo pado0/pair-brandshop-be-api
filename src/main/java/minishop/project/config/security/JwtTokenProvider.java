@@ -1,4 +1,4 @@
-package minishop.project.security;
+package minishop.project.config.security;
 
 
 import io.jsonwebtoken.Claims;

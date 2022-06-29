@@ -6,7 +6,7 @@ import minishop.project.exception.CEmailSigninFailedException;
 import minishop.project.repository.MemberRepository;
 import minishop.project.response.CommonResult;
 import minishop.project.response.SingleResult;
-import minishop.project.security.JwtTokenProvider;
+import minishop.project.config.security.JwtTokenProvider;
 import minishop.project.service.ResponseService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;

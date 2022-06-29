@@ -1,21 +1,16 @@
 package minishop.project.config;
 
-import minishop.project.security.JwtAuthenticationFilter;
-import minishop.project.security.JwtTokenProvider;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import minishop.project.config.security.JwtAuthenticationFilter;
+import minishop.project.config.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 // todo : 문제가 있으면 이 파일 먼저 살펴보기. 최신 코드로 리펙한것이지만 깨름직
 @RequiredArgsConstructor
