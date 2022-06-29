@@ -9,10 +9,7 @@ import minishop.project.response.SingleResult;
 import minishop.project.security.JwtTokenProvider;
 import minishop.project.service.ResponseService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -38,14 +35,19 @@ public class SignController {
     }
 
     // todo: signup 파라미터에 따라 role user / role admin으로 변경, enum으로 관리하기
-    @PostMapping(value = "/signup")
+    @PostMapping(value = "/signup/{role}")
     public CommonResult signup(@RequestParam String id,
-                               @RequestParam String password) {
+                               @RequestParam String password,
+                               @PathVariable String role) {
+
+        // 권한 정보 잘못 들어왔을 경우 얼리리턴
+        if(!role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN"))
+            return responseService.getFailResult(9999, "권한 정보가 잘못되었습니다.");
 
         memberRepository.save(Member.builder()
                 .loginEmail(id)
                 .loginPassword(passwordEncoder.encode(password))
-                .roles(Collections.singletonList("ROLE_USER"))
+                .roles(Collections.singletonList(role))
                 .build());
 
         return responseService.getSuccessResult();
