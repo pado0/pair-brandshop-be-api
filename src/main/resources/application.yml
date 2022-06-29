@@ -13,10 +13,18 @@ spring:
         #      show_sql: true
         format_sql: true
 
+  security:
+    user:
+      name: user
+      password: 1111
+
+  jwt:
+    secret: pepega52483285724012312314w23234324323535233
 spring.jpa.properties.hibernate.use_sql_comments: true
 
 logging.level:
   org.hibernate.SQL: debug
+
 
 
 # org.hibernate.type: trace
