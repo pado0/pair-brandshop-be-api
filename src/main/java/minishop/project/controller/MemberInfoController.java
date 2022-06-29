@@ -14,6 +14,7 @@ public class MemberInfoController {
 //    @PutMapping("/member/info")
 //    public SingleResult<Member>
 //
-    // 멤버 정보 수정 api
+    // 멤버 정보 수정 apiㅇㅇㅇㅇ
 
 }
+
