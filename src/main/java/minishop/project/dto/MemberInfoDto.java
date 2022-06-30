@@ -7,5 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class MemberInfoDto {
 
+    // address
+    private String city;
+    private String street;
+    private String zipcode;
 
 }

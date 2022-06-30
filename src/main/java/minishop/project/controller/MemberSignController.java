@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/v1")
 public class MemberSignController {
 
+    // todo: mapper랑 repository 다 서비스로 올리기
     private final MemberRepository memberRepository; // jpa 쿼리 활용
     private final JwtTokenProvider jwtTokenProvider; // jwt 토큰 생성
     private final ResponseService responseService; // API 요청 결과에 대한 code, messageㅍ
