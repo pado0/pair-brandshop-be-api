@@ -29,10 +29,4 @@ public class AuthTestController {
         return memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
     }
 
-
-    @GetMapping(value = "/members")
-    public List<Member> findUsers() {
-        return memberRepository.findAll();
-    }
-
 }

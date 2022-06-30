@@ -1,27 +1,35 @@
 package minishop.project.controller;
 
 import lombok.RequiredArgsConstructor;
+import minishop.project.dto.MemberGetDto;
 import minishop.project.entity.Member;
 import minishop.project.exception.CEmailSigninFailedException;
+import minishop.project.mapper.MemberMapper;
 import minishop.project.repository.MemberRepository;
 import minishop.project.response.CommonResult;
+import minishop.project.response.ListResult;
 import minishop.project.response.SingleResult;
 import minishop.project.config.security.JwtTokenProvider;
 import minishop.project.service.ResponseService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1")
-public class SignController {
+public class MemberSignController {
 
     private final MemberRepository memberRepository; // jpa 쿼리 활용
     private final JwtTokenProvider jwtTokenProvider; // jwt 토큰 생성
     private final ResponseService responseService; // API 요청 결과에 대한 code, messageㅍ
     private final PasswordEncoder passwordEncoder; // 비밀번호 암호화
+
+    private final MemberMapper memberMapper;
 
     @PostMapping(value = "/signin")
     public SingleResult<String> signin(@RequestParam String id,
@@ -34,7 +42,6 @@ public class SignController {
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(member.getId()), member.getRoles()));
     }
 
-    // todo: signup 파라미터에 따라 role user / role admin으로 변경, enum으로 관리하기
     @PostMapping(value = "/signup/{role}")
     public CommonResult signup(@RequestParam String id,
                                @RequestParam String password,
@@ -52,4 +59,18 @@ public class SignController {
 
         return responseService.getSuccessResult();
     }
+
+    @GetMapping(value = "/members")
+    public List<MemberGetDto> findUsers() {
+
+        List<Member> members = memberRepository.findAll();
+        // Dto mapping
+        return members.stream().map(m -> memberMapper.memberToMemberGetDto(m)).collect(Collectors.toList());
+
+        // stream foreach가 아닌 map으로 처리
+        //members.stream().forEach(m -> memberGetDtos.add(memberMapper.memberToMemberGetDto(m)));
+        //return memberGetDtos;
+
+    }
+
 }
