@@ -22,6 +22,8 @@ spring:
     secret: pepega52483285724012312314w23234324323535233
 spring.jpa.properties.hibernate.use_sql_comments: true
 
+spring.jackson.serialization.fail-on-empty-beans: false
+
 logging.level:
   org.hibernate.SQL: debug
 
