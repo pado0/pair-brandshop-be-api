@@ -24,11 +24,12 @@ public class Item extends JpaBaseEntity{
     private int price;
     private int stockQuantity;
 
+
     //카테고리
 
-    //하트 카운트?
+    //하트 카운트
 
-    //주문 생성 재고 다운
+    //주문 생성시, 재고 다운
     public void removeStock(int quantity) {
         int restStock = this.stockQuantity - quantity;
         if (restStock < 0) {
@@ -36,17 +37,18 @@ public class Item extends JpaBaseEntity{
         }
         this.stockQuantity = restStock;
     }
-    //주문 취소 재고 업
+    //주문 취소시, 재고 업
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
     }
 
+    //아이템 생성,
     public static Item createItem(ItemDto itemDto){
         Item item = new Item();
-        item.setId(itemDto.getId());
+//        item.setId(itemDto.getId());
         item.setPrice(itemDto.getPrice());
         item.setItemName(itemDto.getItemName());
-        item.setStockQuantity(itemDto.getStockQuantity());
+        item.setStockQuantity(itemDto.getCount());
         return item;
     }
 }

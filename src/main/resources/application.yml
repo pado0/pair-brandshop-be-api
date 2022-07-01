@@ -12,6 +12,7 @@ spring:
       hibernate:
         #      show_sql: true
         format_sql: true
+        default_batch_fetch_size: 100
 
   security:
     user:
@@ -22,7 +23,10 @@ spring:
     secret: pepega52483285724012312314w23234324323535233
 spring.jpa.properties.hibernate.use_sql_comments: true
 
-spring.jackson.serialization.fail-on-empty-beans: false
+#spring.jackson.serialization.fail-on-empty-beans: false :
+# 사용시 hibernate5module과 같은역할 -> @JsonIgnore와 BatchSize로 해결 함
+
+
 
 logging.level:
   org.hibernate.SQL: debug

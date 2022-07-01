@@ -5,6 +5,7 @@ import minishop.project.e.domain_eom.Item;
 import minishop.project.e.domain_eom.Order;
 import minishop.project.e.domain_eom.OrderItem;
 import minishop.project.e.domain_eom.OrderStatus;
+import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.repository_eom.ItemRepository;
 import minishop.project.e.repository_eom.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -21,23 +22,22 @@ public class OrderServiceImpl implements  OrderService{
     private final ItemRepository itemRepository;
 
     @Override
-    public void createOrder(List<Item> items) {
+    public void createOrder(List<ItemDto> items){
 
-        Order order = new Order();
-        order.setStatus(OrderStatus.ORDER);
-        for (Item item : items) {
+        //주문 생성 및 배송상태 설정
+        Order newOrder = new Order();
+        newOrder.setStatus(OrderStatus.ORDER);
 
-            Item findItem = itemRepository.findById(item.getId()).get();
-            findItem.removeStock(item.getStockQuantity());
+        //선택한 상품, OrderItem생성 및 연관 관계 셋팅
+        for (ItemDto itemDto : items) {
+            //일단, 정확한 값만을 넘어온다고 가정(잘못된 Item_id 처리해줘야함 )
+            Item findItem = itemRepository.findById(itemDto.getId()).get();
 
-            OrderItem orderItem = new OrderItem();
-            orderItem.setCount(item.getStockQuantity());
-            orderItem.setItem(findItem);
-            orderItem.setOrder(order);
-            orderItem.setOrderPrice(findItem.getPrice());
-            order.addOrderItem(orderItem);
+            //아래 메서드에서 Order와 OrderItem 관게 전부해줌
+            OrderItem.createOrderItem(findItem, newOrder, itemDto.getCount());
+
         }
-        orderRepository.save(order);
+        orderRepository.save(newOrder);
     }
 
     public Order getOrderByOrderId(Long orderId) {
