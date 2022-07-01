@@ -6,10 +6,8 @@ import minishop.project.e.domain_eom.Item;
 import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.service_eom.ItemService;
 import minishop.project.e.service_eom.ItemServiceImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import minishop.project.e.service_eom.LikeServiceImpl;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +16,8 @@ import java.util.List;
 public class ItemApiController {
 
     private final ItemServiceImpl itemService;
+    private final LikeServiceImpl likeService;
+
 
     @PostMapping("/api/v1/items")
     public void createItem(@RequestBody ItemDto itemDto){
@@ -26,6 +26,14 @@ public class ItemApiController {
     @GetMapping("/api/v1/items")
     public List<ItemDto> findAllItems(){
         return itemService.getAllItems();
+    }
+    @PostMapping("/api/v1/items/{itemId}/like")
+    public void upLike(@PathVariable("itemId") Long itemId){
+        likeService.upLike(itemId);
+    }
+    @DeleteMapping("/api/v1/items/{itemId}/like")
+    public void downLike(@PathVariable("itemId") Long itemId){
+
     }
 
 }

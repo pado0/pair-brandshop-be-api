@@ -13,4 +13,7 @@ public class ItemDto {
     private String itemName;
     private int price;
     private int count;
+    private Long likeCount;
+
+
 }

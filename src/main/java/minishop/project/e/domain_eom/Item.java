@@ -1,15 +1,12 @@
 package minishop.project.e.domain_eom;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.exception_eom.NotEnoughStockException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,6 +20,10 @@ public class Item extends JpaBaseEntity{
     private String itemName;
     private int price;
     private int stockQuantity;
+
+    //좋아요
+    @OneToMany(mappedBy = "item")
+    private List<Like> like;
 
 
     //카테고리
@@ -45,7 +46,6 @@ public class Item extends JpaBaseEntity{
     //아이템 생성,
     public static Item createItem(ItemDto itemDto){
         Item item = new Item();
-//        item.setId(itemDto.getId());
         item.setPrice(itemDto.getPrice());
         item.setItemName(itemDto.getItemName());
         item.setStockQuantity(itemDto.getCount());
