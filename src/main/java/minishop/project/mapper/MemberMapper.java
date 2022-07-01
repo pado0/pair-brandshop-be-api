@@ -1,6 +1,7 @@
 package minishop.project.mapper;
 
 import minishop.project.dto.MemberGetDto;
+import minishop.project.dto.MemberInfoDto;
 import minishop.project.entity.Member;
 import org.mapstruct.Mapper;
 
@@ -11,4 +12,5 @@ public interface MemberMapper {
 
     MemberGetDto memberToMemberGetDto(Member member);
 
+    MemberInfoDto memberToMemberInfoDto(Member member);
 }

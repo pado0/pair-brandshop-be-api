@@ -2,6 +2,7 @@ package minishop.project.service;
 
 import lombok.RequiredArgsConstructor;
 import minishop.project.dto.MemberInfoDto;
+import minishop.project.entity.Address;
 import minishop.project.entity.Member;
 import minishop.project.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,17 @@ public class MemberService {
     }
 
     // 수정은 여기서. service에서 dto를 의존해도 되는지?
-    public Member updateMember(Long id, MemberInfoDto memberInfoDto) {
+    @Transactional
+    public Optional<Member> updateMember(Long id, MemberInfoDto memberInfoDto) {
         Optional<Member> member = memberRepository.findById(id);
-        // mapper로 셋?
-        return null;
+
+        Address requestAddress = new Address(memberInfoDto.getCity(),
+                                            memberInfoDto.getStreet(),
+                                            memberInfoDto.getZipcode());
+
+        member.get().setAddress(requestAddress);
+        member.get().setPhoneNumber(memberInfoDto.getPhoneNumber());
+
+        return member;
     }
 }

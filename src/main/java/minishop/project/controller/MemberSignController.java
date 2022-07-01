@@ -66,11 +66,7 @@ public class MemberSignController {
 
         List<Member> members = memberRepository.findAll();
         // Dto mapping
-        return members.stream().map(m -> memberMapper.memberToMemberGetDto(m)).collect(Collectors.toList());
-
-        // stream foreach가 아닌 map으로 처리
-        //members.stream().forEach(m -> memberGetDtos.add(memberMapper.memberToMemberGetDto(m)));
-        //return memberGetDtos;
+        return members.stream().map(memberMapper::memberToMemberGetDto).collect(Collectors.toList());
 
     }
 

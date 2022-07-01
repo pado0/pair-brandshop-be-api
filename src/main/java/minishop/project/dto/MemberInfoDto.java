@@ -12,4 +12,7 @@ public class MemberInfoDto {
     private String street;
     private String zipcode;
 
+    // phone
+    private String phoneNumber;
+
 }
