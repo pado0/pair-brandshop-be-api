@@ -17,16 +17,16 @@ import java.util.List;
 public class AuthTestController {
 
     private final MemberRepository memberRepository;
-    private final ResponseService responseService;
-
 
     @GetMapping(value = "/api/eom/member")
     public Member findUser() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
-        System.out.println(id);
-        // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
+
+//        System.out.println(id);
+
         return memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
     }
 }
