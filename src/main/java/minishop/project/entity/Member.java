@@ -3,6 +3,7 @@ package minishop.project.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import minishop.project.e.domain_eom.JpaBaseEntity;
 import org.hibernate.annotations.Proxy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Post Entity에서 User와의 관계를 Json으로 변환시 오류 방지를 위한 코드
 @Proxy(lazy = false)
-public class Member implements UserDetails {
+public class Member extends JpaBaseEntity implements UserDetails {
 
     @Id @GeneratedValue
     private Long id; // todo: 이부분 String + 임의값으로 리펙토링하기

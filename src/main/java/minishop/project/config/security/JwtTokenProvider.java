@@ -35,7 +35,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    // Jwt 토큰 생성
+    // Jwt 토큰 생성. memberId 기반으로 생성.
     public String createToken(String userPk, List<String> roles) {
 
         // claim: jwt 페이로드에 담는 정보의 조각.
