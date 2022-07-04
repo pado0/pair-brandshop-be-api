@@ -8,6 +8,11 @@ import minishop.project.e.domain_eom.OrderStatus;
 import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.repository_eom.ItemRepository;
 import minishop.project.e.repository_eom.OrderRepository;
+import minishop.project.entity.Member;
+import minishop.project.exception.CUserNotFoundException;
+import minishop.project.repository.MemberRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +25,21 @@ public class OrderServiceImpl implements  OrderService{
 
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
+
 
     @Override
     public void createOrder(List<ItemDto> items){
 
+        //회원 정보 확인
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        Member member = memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
+
         //주문 생성 및 배송상태 설정
         Order newOrder = new Order();
         newOrder.setStatus(OrderStatus.ORDER);
+        newOrder.setMember(member);
 
         //선택한 상품, OrderItem생성 및 연관 관계 셋팅
         for (ItemDto itemDto : items) {
@@ -49,9 +62,10 @@ public class OrderServiceImpl implements  OrderService{
         return  null;
     }
 
+
+    //존재하는 모든 주문 조회 (회원 구분X)
     @Override
     public List<Order> getAllOrders() {
-
 
         List<Order> orders = orderRepository.findAll();
         for (Order order : orders) {
@@ -64,4 +78,7 @@ public class OrderServiceImpl implements  OrderService{
         }
         return orders;
     }
+
+    //로그인 회원 주문 조회
+
 }
