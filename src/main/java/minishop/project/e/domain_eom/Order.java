@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,33 +25,39 @@ public class Order extends JpaBaseEntity{
 //    @JoinColumn(name = "member_id")
 //    private Member member;
 
-//    @JsonIgnore
-    @OneToMany(fetch=LAZY, mappedBy = "order", cascade=CascadeType.ALL)
+    @OneToMany(fetch=LAZY, mappedBy = "order", cascade=CascadeType.ALL) //Order 저장시, OrderItem 자동 저장
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status; //상태 3가지 체크
 
-    //연관 메서드
+
+    /*
+    *
+    * 주문 생성시 필요한 연관 메서드
+    *
+    * */
+    // Order -> OrderItem 생성
     public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
+        orderItems.add(orderItem); //Order의 OrderItem에 추가
+        orderItem.setOrder(this);  //OrderItem의 Order에 Order 저장
     }
+
     //1 멤버 셋팅
 
-    //2 orderItem 저장
-
-    //주문생성메서드
+    //주문 생성을 --> OrderItem에서 처리
 
     //주문취소
-    //==생성 메서드==//
-//    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-//        OrderItem orderItem = new OrderItem();
-//        orderItem.setItem(item);
-//        orderItem.setOrderPrice(orderPrice);
-//        orderItem.setCount(count);
-//        item.removeStock(count);
-//        return orderItem;
-//    }
+    public void cancel() {
+        if (getStatus() == OrderStatus.COMPLETION) { // 배송완료
+            //RunTimeException
+            throw new IllegalStateException("이미 배송완료된 상품입니다.");
+        }
+
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
 
 }
