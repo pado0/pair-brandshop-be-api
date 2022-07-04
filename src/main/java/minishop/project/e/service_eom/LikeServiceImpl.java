@@ -11,11 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class LikeServiceImpl {
+public class LikeServiceImpl implements LikeService{
 
     private final LikeRepository likeRepository;
     private final ItemRepository itemRepository;
 
+    @Override
     public void upLike(Long itemId){
         //:todo optional 처리 해줘야함
         Item item = itemRepository.findById(itemId).get();
@@ -23,7 +24,11 @@ public class LikeServiceImpl {
         like.setItem(item);
         likeRepository.save(like);
     }
-    public void downLike(Long itemId){
 
+    @Override
+    public void downLike(Long itemId){
+//        Item item = itemRepository.findById(itemId).get();
+//        itemRepository.finByIdandUser();
+//        itemRepository.delete(item);
     }
 }

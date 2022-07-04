@@ -23,6 +23,7 @@ public class ItemServiceImpl implements ItemService{
     private final ItemRepository itemRepository;
     private final LikeRepository likeRepository;
 
+    @Override
     public void createItem(ItemDto itemDto){
         Item item = Item.createItem(itemDto);
         itemRepository.save(item);

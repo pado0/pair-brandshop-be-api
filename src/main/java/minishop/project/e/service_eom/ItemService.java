@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ItemService {
 
+    public void createItem(ItemDto itemDto);
     List<ItemDto> getAllItems();
 //    Long createItem
 }
