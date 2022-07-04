@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,13 +34,22 @@ public class CategoryController {
     public List<CategoryGetDto> findALlCategory() {
 
         List<CategoryGetDto> categoryGetDtos = new ArrayList<>();
+
         List<Category> categories = categoryService.findAllCategories();
 
-        categories.forEach(x -> categoryGetDtos.add(new CategoryGetDto(
-                x.getName(), x.getChild()
-        )));
+        return categories.stream().map(c -> new CategoryGetDto(c)).collect(Collectors.toList());
+
+
+        // 이 코드를 넣으면 그제서야 들어감.
+        // 지연로딩이라서 조회가 안되는 중이었음.
+        //        categories.forEach(x -> categoryGetDtos.add(new CategoryGetDto(
+//                x.getName(), x.getChild()
+//        )));
+//        for (CategoryGetDto categoryGetDto : categoryGetDtos) {
+//            categoryGetDto.getChild().stream().forEach(c -> System.out.println("뭐지?: " + c));
+//        }
 
         // chile에서 parent 조회하지 않도록 별도의 dto 처리
-        return categoryGetDtos;
+        //return categoryGetDtos;
     }
 }
