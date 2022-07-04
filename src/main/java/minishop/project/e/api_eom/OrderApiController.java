@@ -5,13 +5,11 @@ import lombok.RequiredArgsConstructor;
 import minishop.project.e.domain_eom.Item;
 import minishop.project.e.domain_eom.Order;
 import minishop.project.e.domain_eom.OrderItem;
+import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.service_eom.OrderJpaRepository;
 import minishop.project.e.service_eom.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,14 +27,34 @@ public class OrderApiController {
 
     //주문 생성
     @PostMapping("/api/v1/orders")
-    public void createOrder(@RequestBody List<Item> list){
+    public void createOrder(@RequestBody List<ItemDto> list){
         orderService.createOrder(list);
     }
 
     //주문 전체 조회
+    //v1 : 컬렉션 관계 - fetch join 활용, Query 1개로 해결
+    //페이징 안됨
     @GetMapping("/api/v1/orders")
-    public List<OrderDto> getOrders(){
-        List<Order> orders = orderJpaRepository.findAllWithItem();
+    public List<OrderDto> getOrdersV1(){
+        //주문 전체 조회 (fetch join)
+        List<Order> orders = orderJpaRepository.findAllWithItemV1();
+        //Dto로 변환
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(toList());
+        return result;
+    }
+
+    //주문 전체 조회
+    //v2 : 컬렉셕 관계 - LAZY + hirbernate_defualt_batch_size 로 IN 쿼리 활용
+    //toOne - fetch join 활용
+    //페이징 됨
+    @GetMapping("/api/v2/orders")
+    public List<OrderDto> getOrdersV2(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                      @RequestParam(value = "limit", defaultValue = "2") int limit){
+        //주문 전체 조회 (fetch join)
+        List<Order> orders = orderJpaRepository.findAllWithItemV2(offset,limit);
+        //Dto로 변환
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
                 .collect(toList());
@@ -44,6 +62,13 @@ public class OrderApiController {
     }
 
 
+
+
+    /*
+    * 하단부,
+    * Order 전체 조회시 사용 하는 DTO
+    *
+    * */
     @Data
     static class OrderDto {
         private Long orderId;
@@ -64,7 +89,7 @@ public class OrderApiController {
         private int orderPrice; //주문 가격
         private int count; //주문 수량
         public OrderItemDto(OrderItem orderItem) {
-            itemName = orderItem.getItem().getItemName();
+            itemName = orderItem.getItem().getItemName();  //Lazy 초기화
             orderPrice = orderItem.getOrderPrice();
             count = orderItem.getCount();
         }
