@@ -3,6 +3,7 @@ package minishop.project.e.domain_eom;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import minishop.project.entity.Member;
 
 import javax.persistence.*;
 
@@ -20,8 +21,10 @@ public class Like {
     @JsonIgnore
     private Item item;
 
-//    @ManyToOne
-//    @JoinColumn(name="member_id")
-//    private Long memberId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @JsonIgnore
+    private Member member;
 
 }

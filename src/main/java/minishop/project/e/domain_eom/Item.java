@@ -6,6 +6,7 @@ import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.exception_eom.NotEnoughStockException;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Item extends JpaBaseEntity{
 
     //좋아요
     @OneToMany(mappedBy = "item")
-    private List<Like> like;
+    private List<Like> likes = new ArrayList<>();
 
 
     //카테고리

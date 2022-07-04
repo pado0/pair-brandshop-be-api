@@ -1,9 +1,12 @@
 package minishop.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import minishop.project.e.domain_eom.JpaBaseEntity;
+import minishop.project.e.domain_eom.Like;
+import minishop.project.e.domain_eom.Order;
 import org.hibernate.annotations.Proxy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -40,6 +43,7 @@ public class Member extends JpaBaseEntity implements UserDetails {
     private Address address;
 
     private String phoneNumber;
+
 
 
 
@@ -93,4 +97,20 @@ public class Member extends JpaBaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
+    /*
+     *  준승
+     */
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    List<Order> orders = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "member")
+    private List<Like> likes = new ArrayList<>();
+
+
 }
