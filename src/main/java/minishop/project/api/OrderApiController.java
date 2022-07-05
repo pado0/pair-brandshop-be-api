@@ -1,4 +1,4 @@
-package minishop.project.controller;
+package minishop.project.api;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

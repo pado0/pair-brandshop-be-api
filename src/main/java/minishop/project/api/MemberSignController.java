@@ -1,4 +1,4 @@
-package minishop.project.controller;
+package minishop.project.api;
 
 import lombok.RequiredArgsConstructor;
 import minishop.project.domain.member.dto.MemberGetDto;
@@ -6,8 +6,8 @@ import minishop.project.domain.member.entity.Member;
 import minishop.project.exception.CEmailSigninFailedException;
 import minishop.project.domain.member.mapper.MemberMapper;
 import minishop.project.domain.member.repository.MemberRepository;
-import minishop.project.controller.response.CommonResult;
-import minishop.project.controller.response.SingleResult;
+import minishop.project.api.response.CommonResult;
+import minishop.project.api.response.SingleResult;
 import minishop.project.config.security.JwtTokenProvider;
 import minishop.project.domain.common.ResponseService;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package minishop.project.controller.response;
+package minishop.project.api.response;
 
 import lombok.Getter;
 import lombok.Setter;

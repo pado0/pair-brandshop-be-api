@@ -1,4 +1,4 @@
-package minishop.project.controller;
+package minishop.project.api;
 
 import lombok.RequiredArgsConstructor;
 import minishop.project.domain.member.dto.MemberInfoDto;

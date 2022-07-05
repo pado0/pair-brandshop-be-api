@@ -1,9 +1,9 @@
 package minishop.project.domain.common;
 
 
-import minishop.project.controller.response.CommonResult;
-import minishop.project.controller.response.ListResult;
-import minishop.project.controller.response.SingleResult;
+import minishop.project.api.response.CommonResult;
+import minishop.project.api.response.ListResult;
+import minishop.project.api.response.SingleResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
