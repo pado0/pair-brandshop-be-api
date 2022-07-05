@@ -1,15 +1,13 @@
 package minishop.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import minishop.project.dto.MemberInfoDto;
-import minishop.project.entity.Member;
-import minishop.project.mapper.MemberMapper;
-import minishop.project.response.SingleResult;
-import minishop.project.service.MemberService;
-import minishop.project.service.ResponseService;
+import minishop.project.domain.member.dto.MemberInfoDto;
+import minishop.project.domain.member.entity.Member;
+import minishop.project.domain.member.mapper.MemberMapper;
+import minishop.project.domain.member.service.MemberService;
+import minishop.project.domain.common.ResponseService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Locale;
 import java.util.Optional;
 
 @RestController

@@ -1,20 +1,18 @@
 package minishop.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import minishop.project.dto.MemberGetDto;
-import minishop.project.entity.Member;
+import minishop.project.domain.member.dto.MemberGetDto;
+import minishop.project.domain.member.entity.Member;
 import minishop.project.exception.CEmailSigninFailedException;
-import minishop.project.mapper.MemberMapper;
-import minishop.project.repository.MemberRepository;
-import minishop.project.response.CommonResult;
-import minishop.project.response.ListResult;
-import minishop.project.response.SingleResult;
+import minishop.project.domain.member.mapper.MemberMapper;
+import minishop.project.domain.member.repository.MemberRepository;
+import minishop.project.controller.response.CommonResult;
+import minishop.project.controller.response.SingleResult;
 import minishop.project.config.security.JwtTokenProvider;
-import minishop.project.service.ResponseService;
+import minishop.project.domain.common.ResponseService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

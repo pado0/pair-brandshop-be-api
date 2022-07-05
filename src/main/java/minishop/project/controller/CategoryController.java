@@ -1,10 +1,10 @@
 package minishop.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import minishop.project.dto.CategoryGetDto;
-import minishop.project.dto.CategoryPostDto;
-import minishop.project.entity.Category;
-import minishop.project.service.CategoryService;
+import minishop.project.domain.category.dto.CategoryGetDto;
+import minishop.project.domain.category.dto.CategoryPostDto;
+import minishop.project.domain.category.Category;
+import minishop.project.domain.category.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

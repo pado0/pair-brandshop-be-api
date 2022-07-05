@@ -1,10 +1,10 @@
 package minishop.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import minishop.project.entity.Member;
+import minishop.project.domain.member.entity.Member;
 import minishop.project.exception.CUserNotFoundException;
-import minishop.project.repository.MemberRepository;
-import minishop.project.service.ResponseService;
+import minishop.project.domain.member.repository.MemberRepository;
+import minishop.project.domain.common.ResponseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
