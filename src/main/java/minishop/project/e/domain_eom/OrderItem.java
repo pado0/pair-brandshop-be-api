@@ -22,14 +22,17 @@ public class OrderItem {
     @JsonIgnore //연쇄적인 호출을 피하기 위해
     private Order order;
 
-    private int orderPrice;
+    private int orderPrice; // 주문 가격 ( 수량 포함된 계산 가격임)
     private int count;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
 
     /** Order에서  주문 취소시 실행  */
     public void cancel() {
         //제고 수량 업시킴
+        this.status=OrderStatus.CANCEL;
         getItem().addStock(count);
     }
 
@@ -40,6 +43,7 @@ public class OrderItem {
         OrderItem orderItem = new OrderItem();
 
         //2 기본값 셋팅
+        orderItem.setStatus(OrderStatus.ORDER);
         orderItem.setItem(item);
         orderItem.setCount(count);
         item.removeStock(count);
@@ -48,6 +52,10 @@ public class OrderItem {
         //3 연관 관계 셋팅
         order.addOrderItem(orderItem);
 
+    }
+
+    public int getTotalPrice() {
+        return orderPrice;
     }
 
 

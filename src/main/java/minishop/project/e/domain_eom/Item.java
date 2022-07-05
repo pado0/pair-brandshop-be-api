@@ -23,9 +23,12 @@ public class Item extends JpaBaseEntity{
     private int stockQuantity;
 
     //좋아요
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE) // Item 삭제시 좋아요 전파 삭제됨
     private List<Like> likes = new ArrayList<>();
 
+
+    @Enumerated(EnumType.STRING)
+    private ItemStatus itemStatus;
 
     //카테고리
 
@@ -47,6 +50,7 @@ public class Item extends JpaBaseEntity{
     //아이템 생성,
     public static Item createItem(ItemDto itemDto){
         Item item = new Item();
+        item.setItemStatus(ItemStatus.SELL);
         item.setPrice(itemDto.getPrice());
         item.setItemName(itemDto.getItemName());
         item.setStockQuantity(itemDto.getCount());

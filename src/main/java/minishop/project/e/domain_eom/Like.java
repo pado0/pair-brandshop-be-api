@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import minishop.project.entity.Member;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,5 +28,4 @@ public class Like {
     @JoinColumn(name = "member_id")
     @JsonIgnore
     private Member member;
-
 }

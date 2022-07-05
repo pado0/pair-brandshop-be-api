@@ -2,6 +2,7 @@ package minishop.project.e.service_eom;
 
 import lombok.RequiredArgsConstructor;
 import minishop.project.e.domain_eom.Item;
+import minishop.project.e.domain_eom.ItemStatus;
 import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.repository_eom.ItemRepository;
 import minishop.project.e.repository_eom.LikeRepository;
@@ -44,5 +45,10 @@ public class ItemServiceImpl implements ItemService{
         return itemList;
     }
 
+    @Override
+    public void deleteItem(Long itemId) {
+        Item item = itemRepository.findById(itemId).get();
+        item.setItemStatus(ItemStatus.discontinued);
 
+    }
 }

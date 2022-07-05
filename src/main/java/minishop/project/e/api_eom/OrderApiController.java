@@ -6,6 +6,7 @@ import minishop.project.e.domain_eom.Item;
 import minishop.project.e.domain_eom.Order;
 import minishop.project.e.domain_eom.OrderItem;
 import minishop.project.e.dto_eom.ItemDto;
+import minishop.project.e.repository_eom.OrderRepository;
 import minishop.project.e.service_eom.OrderJpaRepository;
 import minishop.project.e.service_eom.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,17 @@ public class OrderApiController {
     private final OrderService orderService;
     private final OrderJpaRepository orderJpaRepository;
 
-    //주문 생성
-    @PostMapping("/api/v1/orders")
+    //주문 CREATE
+    @PostMapping("/v1/orders")
     public void createOrder(@RequestBody List<ItemDto> list){
         orderService.createOrder(list);
     }
 
-    //주문 전체 조회
+
+    //주문 SELECT1
     //v1 : 컬렉션 관계 - fetch join 활용, Query 1개로 해결
     //페이징 안됨
-    @GetMapping("/api/v1/orders")
+    @GetMapping("/v1/orders")
     public List<OrderDto> getOrdersV1(){
         //주문 전체 조회 (fetch join)
         List<Order> orders = orderJpaRepository.findAllWithItemV1();
@@ -45,11 +47,11 @@ public class OrderApiController {
         return result;
     }
 
-    //주문 전체 조회
+    //주문 SELECT2
     //v2 : 컬렉셕 관계 - LAZY + hirbernate_defualt_batch_size 로 IN 쿼리 활용
     //toOne - fetch join 활용
     //페이징 됨
-    @GetMapping("/api/v2/orders")
+    @GetMapping("/v2/orders")
     public List<OrderDto> getOrdersV2(@RequestParam(value = "offset", defaultValue = "0") int offset,
                                       @RequestParam(value = "limit", defaultValue = "2") int limit){
         //주문 전체 조회 (fetch join)
@@ -61,7 +63,17 @@ public class OrderApiController {
         return result;
     }
 
+    //주문 DELETE --> 상태 변경 cancel
+    @PostMapping("/v1/orders/{orderId}/cancel")
+    public void cancelOrder(@PathVariable("orderId") Long orderId){
+        orderService.cancelOrder(orderId);
+    }
 
+    //매출 총합
+    @GetMapping("/v1/orders/totalprice")
+    public long getTotalPrice(){
+        return orderService.findToTalPrice();
+    }
 
 
     /*
@@ -94,6 +106,7 @@ public class OrderApiController {
             count = orderItem.getCount();
         }
     }
+
 
 
 }

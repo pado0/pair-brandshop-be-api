@@ -20,21 +20,23 @@ public class ItemApiController {
     private final LikeService likeService;
 
 
-    @PostMapping("/api/v1/items")
+    @PostMapping("/v1/items")
     public void createItem(@RequestBody ItemDto itemDto){
         itemService.createItem(itemDto);
     }
-    @GetMapping("/api/v1/items")
+    @GetMapping("/v1/items")
     public List<ItemDto> findAllItems(){
         return itemService.getAllItems();
     }
-    @PostMapping("/api/v1/items/{itemId}/like")
+    @PostMapping("/v1/items/{itemId}/like")
     public void upLike(@PathVariable("itemId") Long itemId){
-        likeService.upLike(itemId);
+        likeService.pushLike(itemId);
     }
-    @DeleteMapping("/api/v1/items/{itemId}/like")
-    public void downLike(@PathVariable("itemId") Long itemId){
-        likeService.downLike(itemId);
+
+    @PostMapping("/v1/items/{itemId}/delete")
+    public void deleteItem(@PathVariable("itemId")Long itemId){
+        itemService.deleteItem(itemId);
     }
+
 
 }

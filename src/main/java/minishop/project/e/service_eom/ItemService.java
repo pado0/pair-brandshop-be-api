@@ -8,5 +8,7 @@ public interface ItemService {
 
     public void createItem(ItemDto itemDto);
     List<ItemDto> getAllItems();
+
+    void deleteItem(Long itemId);
 //    Long createItem
 }

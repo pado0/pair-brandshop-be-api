@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,33 +25,29 @@ public class LikeServiceImpl implements LikeService{
     private final MemberRepository memberRepository;
 
     @Override
-    public void upLike(Long itemId){
+    public void pushLike(Long itemId){
 
         //회원 정보 확인
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
+
+        //memeber찾고
         Member member = memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
 
         //:todo optional 처리 해줘야함
-        Item item = itemRepository.findById(itemId).get();
-        Like like = new Like();
-        like.setItem(item);
-        like.setMember(member);
-        likeRepository.save(like);
-    }
-
-    @Override
-    public void downLike(Long itemId){
-        //회원 정보 확인
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String id = authentication.getName();
-        Member member = memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
-
+        //Item 찾고
         Item item = itemRepository.findById(itemId).get();
 
-
-        Like findLike = likeRepository.findByMemberAndItem(member, item).get();
-        likeRepository.delete(findLike);
-
+        Optional<Like> findLike = likeRepository.findByMemberAndItem(member, item);
+        if(findLike.isPresent()){
+            //다운시킴
+            likeRepository.delete(findLike.get());
+        }else{
+            //업 시킴
+            Like like = new Like();
+            like.setItem(item);
+            like.setMember(member);
+            likeRepository.save(like);
+        }
     }
 }
