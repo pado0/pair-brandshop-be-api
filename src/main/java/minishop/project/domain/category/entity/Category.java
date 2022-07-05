@@ -1,4 +1,4 @@
-package minishop.project.domain.category;
+package minishop.project.domain.category.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

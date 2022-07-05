@@ -3,7 +3,7 @@ package minishop.project.api;
 import lombok.RequiredArgsConstructor;
 import minishop.project.domain.category.dto.CategoryGetDto;
 import minishop.project.domain.category.dto.CategoryPostDto;
-import minishop.project.domain.category.Category;
+import minishop.project.domain.category.entity.Category;
 import minishop.project.domain.category.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 

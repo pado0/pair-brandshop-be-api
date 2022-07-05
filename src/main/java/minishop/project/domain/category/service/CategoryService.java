@@ -1,7 +1,7 @@
 package minishop.project.domain.category.service;
 
 import lombok.RequiredArgsConstructor;
-import minishop.project.domain.category.Category;
+import minishop.project.domain.category.entity.Category;
 import minishop.project.domain.category.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package minishop.project.domain.order;
+package minishop.project.domain.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

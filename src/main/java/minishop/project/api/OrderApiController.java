@@ -2,8 +2,8 @@ package minishop.project.api;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import minishop.project.domain.order.Order;
-import minishop.project.domain.order.OrderItem;
+import minishop.project.domain.order.entity.Order;
+import minishop.project.domain.order.entity.OrderItem;
 import minishop.project.domain.item.dto.ItemDto;
 import minishop.project.domain.order.repository.OrderJpaRepository;
 import minishop.project.domain.order.service.OrderService;

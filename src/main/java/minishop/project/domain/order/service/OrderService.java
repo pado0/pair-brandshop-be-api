@@ -1,6 +1,6 @@
 package minishop.project.domain.order.service;
 
-import minishop.project.domain.order.Order;
+import minishop.project.domain.order.entity.Order;
 import minishop.project.domain.item.dto.ItemDto;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package minishop.project.domain.like.repository;
 
 import minishop.project.domain.item.entity.Item;
-import minishop.project.domain.like.Like;
+import minishop.project.domain.like.entity.Like;
 import minishop.project.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

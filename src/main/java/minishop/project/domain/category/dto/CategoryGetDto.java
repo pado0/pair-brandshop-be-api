@@ -2,7 +2,7 @@ package minishop.project.domain.category.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import minishop.project.domain.category.Category;
+import minishop.project.domain.category.entity.Category;
 
 import java.util.List;
 import java.util.stream.Collectors;

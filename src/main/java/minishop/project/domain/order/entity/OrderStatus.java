@@ -1,4 +1,4 @@
-package minishop.project.domain.order;
+package minishop.project.domain.order.entity;
 
 public enum OrderStatus {
     ORDER,COMPLETION,CANCEL

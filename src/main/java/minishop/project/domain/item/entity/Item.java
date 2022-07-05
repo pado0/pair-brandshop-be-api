@@ -3,7 +3,7 @@ package minishop.project.domain.item.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import minishop.project.domain.common.JpaBaseEntity;
-import minishop.project.domain.like.Like;
+import minishop.project.domain.like.entity.Like;
 import minishop.project.domain.item.dto.ItemDto;
 import minishop.project.exception.NotEnoughStockException;
 

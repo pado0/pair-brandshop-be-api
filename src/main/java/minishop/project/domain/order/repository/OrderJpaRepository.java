@@ -1,6 +1,6 @@
 package minishop.project.domain.order.repository;
 
-import minishop.project.domain.order.Order;
+import minishop.project.domain.order.entity.Order;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
