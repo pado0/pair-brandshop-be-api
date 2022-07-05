@@ -1,10 +1,7 @@
 package minishop.project.e.service_eom;
 
 import lombok.RequiredArgsConstructor;
-import minishop.project.e.domain_eom.Item;
-import minishop.project.e.domain_eom.Order;
-import minishop.project.e.domain_eom.OrderItem;
-import minishop.project.e.domain_eom.OrderStatus;
+import minishop.project.e.domain_eom.*;
 import minishop.project.e.dto_eom.ItemDto;
 import minishop.project.e.repository_eom.ItemRepository;
 import minishop.project.e.repository_eom.OrderRepository;
@@ -26,8 +23,9 @@ public class OrderServiceImpl implements  OrderService{
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
+    private final ItemService itemService;
 
-
+    //CREATE
     @Override
     public void createOrder(List<ItemDto> items){
 
@@ -47,22 +45,15 @@ public class OrderServiceImpl implements  OrderService{
             Item findItem = itemRepository.findById(itemDto.getId()).get();
 
             //아래 메서드에서 Order와 OrderItem 관게 전부해줌
-            OrderItem.createOrderItem(findItem, newOrder, itemDto.getCount());
-
+            //해당 Item이 판매중이면 실행
+            if(findItem.getItemStatus()== ItemStatus.SELL){
+                OrderItem.createOrderItem(findItem, newOrder, itemDto.getCount());
+            }
         }
         orderRepository.save(newOrder);
     }
 
-    public Order getOrderByOrderId(Long orderId) {
-        return orderRepository.findById(orderId).get();
-//        return orderRepository.findById(orderId).orElse(Order::new); --> todo 널처리
-    }
-
-    public List<Order> getOrdersByUserId(String userId) {
-        return  null;
-    }
-
-
+    //SELECT
     //존재하는 모든 주문 조회 (회원 구분X)
     @Override
     public List<Order> getAllOrders() {
@@ -81,4 +72,22 @@ public class OrderServiceImpl implements  OrderService{
 
     //로그인 회원 주문 조회
 
+    //주문 취소
+    @Override
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        order.cancel();
+    }
+
+    @Override
+    public long findToTalPrice() {
+        long sum = 0 ;
+        List<Order> all = orderRepository.findAll();
+        for (Order order : all) {
+            if(order.getStatus()!=OrderStatus.CANCEL){
+                sum+=order.getTotalPrice();
+            }
+        }
+        return sum ;
+    }
 }

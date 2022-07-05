@@ -52,8 +52,10 @@ public class Order extends JpaBaseEntity{
     //주문 생성을 --> OrderItem에서 처리
 
 
+    //비즈니스 로직
     //주문취소
     public void cancel() {
+
         if (getStatus() == OrderStatus.COMPLETION) { // 배송완료
             //RunTimeException
             throw new IllegalStateException("이미 배송완료된 상품입니다.");
@@ -63,6 +65,13 @@ public class Order extends JpaBaseEntity{
         for (OrderItem orderItem : orderItems) {
             orderItem.cancel();
         }
+    }
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
     }
 
 }
