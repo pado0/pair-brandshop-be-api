@@ -26,11 +26,10 @@ public class OrderApiController {
         orderService.createOrder(list);
     }
 
-
     //주문 SELECT1
     //v1 : 컬렉션 관계 - fetch join 활용, Query 1개로 해결
     //페이징 안됨
-    @GetMapping("/v1/orders")
+    @GetMapping("/v1/orders/v1/orders")
     public List<OrderDto> getOrdersV1(){
         //주문 전체 조회 (fetch join)
         List<Order> orders = orderJpaRepository.findAllWithItemV1();
@@ -58,7 +57,7 @@ public class OrderApiController {
     }
 
     //주문 DELETE --> 상태 변경 cancel
-    @PostMapping("/v1/orders/{orderId}/cancel")
+    @DeleteMapping("/v1/orders/{orderId}/cancel")
     public void cancelOrder(@PathVariable("orderId") Long orderId){
         orderService.cancelOrder(orderId);
     }
@@ -73,12 +72,10 @@ public class OrderApiController {
     /*
     * 하단부,
     * Order 전체 조회시 사용 하는 DTO
-    *
     * */
     @Data
     static class OrderDto {
         private Long orderId;
-        private String name;
         private List<OrderItemDto> orderItems; //List<OrdetItem> 이라고 하면 안됨. -> 이거 entity 노출임 !!!!
 
         public OrderDto(Order order) {

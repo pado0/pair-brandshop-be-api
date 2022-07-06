@@ -17,20 +17,26 @@ public class ItemApiController {
     private final LikeService likeService;
 
 
+    //Item 생성
     @PostMapping("/v1/items")
     public void createItem(@RequestBody ItemDto itemDto){
         itemService.createItem(itemDto);
     }
+
+    //모든 Item 조회
     @GetMapping("/v1/items")
     public List<ItemDto> findAllItems(){
         return itemService.getAllItems();
     }
+
+    //좋아요
     @PostMapping("/v1/items/{itemId}/like")
     public void upLike(@PathVariable("itemId") Long itemId){
         likeService.pushLike(itemId);
     }
 
-    @PostMapping("/v1/items/{itemId}/delete")
+    //Item 삭제
+    @DeleteMapping("/v1/items/{itemId}/delete")
     public void deleteItem(@PathVariable("itemId")Long itemId){
         itemService.deleteItem(itemId);
     }
