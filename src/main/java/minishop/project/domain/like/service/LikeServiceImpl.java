@@ -41,6 +41,7 @@ public class LikeServiceImpl implements LikeService{
         //상품찾기
         Optional<Like> findLike = likeRepository.findByMemberAndItem(member, item);
 
+        // todo : 비즈니스 로직을 엔티티로 옮기는거 어떤지
         if(findLike.isPresent()){
             //다운시킴
             likeRepository.delete(findLike.get());

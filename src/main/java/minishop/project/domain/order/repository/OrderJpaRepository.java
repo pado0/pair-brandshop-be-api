@@ -15,6 +15,7 @@ public class OrderJpaRepository {
         this.em = em;
     }
 
+    // todo : 제일 중요한거 다시공부하기 (준승님 코드)
     public List<Order> findAllWithItemV1() {
         return em.createQuery(
                         "select distinct o from Order o" +

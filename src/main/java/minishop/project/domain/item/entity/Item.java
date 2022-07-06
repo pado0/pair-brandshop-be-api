@@ -49,6 +49,7 @@ public class Item extends JpaBaseEntity {
         this.stockQuantity += quantity;
     }
 
+    // todo : mapper 적용해보기
     //아이템 생성,
     public static Item createItem(ItemDto itemDto){
         Item item = new Item();

@@ -49,6 +49,8 @@ public class OrderApiController {
                                       @RequestParam(value = "limit", defaultValue = "2") int limit){
         //주문 전체 조회 (fetch join)
         List<Order> orders = orderJpaRepository.findAllWithItemV2(offset,limit);
+
+        // todo : 리턴 바로 치고 메소드 레퍼런스로 리팩토링
         //Dto로 변환
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
