@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -33,20 +34,26 @@ public class ItemServiceImpl implements ItemService{
         List<Item> items = itemRepository.findAll();
 
         List<ItemDto> itemList = items.stream().map(
-                s -> new ItemDto(s.getId(), s.getItemName(), s.getPrice(), s.getStockQuantity(), likeRepository.countByItem(s))
+                s -> new ItemDto(s.getId(),
+                                    s.getItemName(),
+                                    s.getPrice(),
+                                    s.getStockQuantity(),
+                                    likeRepository.countByItem(s))
         ).collect(Collectors.toList());
 
-//        List<ItemDto> allItems =
-//                items.stream().map(s ->
-//                        new ItemDto(s.getId(), s.getItemName(), s.getPrice(), s.getStockQuantity(),))
-//                                        .collect(Collectors.toList());
         return itemList;
     }
 
     @Override
     public void deleteItem(Long itemId) {
-        Item item = itemRepository.findById(itemId).get();
-        item.setItemStatus(ItemStatus.discontinued);
+
+        //영속상태가됨
+        Optional<Item> findItem = itemRepository.findById(itemId);
+        if(!findItem.isPresent()){
+            throw new IllegalStateException("존재하는 상품이 없습니다");
+        }
+        //영속상태라 변경감지로 실행됨
+        findItem.get().setItemStatus(ItemStatus.discontinued);
 
     }
 }

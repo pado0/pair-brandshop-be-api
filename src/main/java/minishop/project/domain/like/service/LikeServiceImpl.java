@@ -31,14 +31,16 @@ public class LikeServiceImpl implements LikeService{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
 
-        //memeber찾고
+        //memeber 찾기
         Member member = memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
 
         //:todo optional 처리 해줘야함
-        //Item 찾고
-        Item item = itemRepository.findById(itemId).get();
+        //Item 찾기
+        Item item = itemRepository.findById(itemId).orElseThrow(()->new IllegalStateException("상품 ID를 확인해주세요"));
 
+        //상품찾기
         Optional<Like> findLike = likeRepository.findByMemberAndItem(member, item);
+
         if(findLike.isPresent()){
             //다운시킴
             likeRepository.delete(findLike.get());
