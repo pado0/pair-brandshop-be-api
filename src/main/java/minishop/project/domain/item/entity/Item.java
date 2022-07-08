@@ -25,6 +25,10 @@ public class Item extends JpaBaseEntity {
     private int stockQuantity;
 
     //좋아요
+    //Item - 부모 @OneTOMany
+    //Like - 자식 @ManyToOne (FK 위치 - 주인)
+    //Item 삭제시 -> Like 전파 삭제 -> Cascade
+
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE) // Item 삭제시 좋아요 전파 삭제됨
     private List<Like> likes = new ArrayList<>();
 
