@@ -25,7 +25,7 @@ public class LikeServiceImpl implements LikeService{
     private final MemberRepository memberRepository;
 
     @Override
-    public void pushLike(Long itemId){
+    public String pushLike(Long itemId){
 
         //회원 정보 확인
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -34,23 +34,24 @@ public class LikeServiceImpl implements LikeService{
         //memeber 찾기
         Member member = memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
 
-        //:todo optional 처리 해줘야함
+        //:todo optional 처리 해줘야함 -> 완료
         //Item 찾기
         Item item = itemRepository.findById(itemId).orElseThrow(()->new IllegalStateException("상품 ID를 확인해주세요"));
 
         //상품찾기
         Optional<Like> findLike = likeRepository.findByMemberAndItem(member, item);
 
-        // todo : 비즈니스 로직을 엔티티로 옮기는거 어떤지
+        // todo : 비즈니스 로직을 엔티티로 옮기는거 어떤지 -> 완료
         if(findLike.isPresent()){
             //다운시킴
             likeRepository.delete(findLike.get());
+            return "down";
         }else{
             //업 시킴
-            Like like = new Like();
-            like.setItem(item);
-            like.setMember(member);
-            likeRepository.save(like);
+            likeRepository.save(Like.createUpLike(item, member));
+            return "up";
         }
+
+
     }
 }

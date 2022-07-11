@@ -2,6 +2,7 @@ package minishop.project.domain.item.service;
 
 import lombok.RequiredArgsConstructor;
 import minishop.project.domain.item.entity.Item;
+import minishop.project.domain.item.entity.ItemMapper;
 import minishop.project.domain.item.entity.ItemStatus;
 import minishop.project.domain.item.dto.ItemDto;
 import minishop.project.domain.item.repository.ItemRepository;
@@ -22,10 +23,12 @@ public class ItemServiceImpl implements ItemService{
 
     private final ItemRepository itemRepository;
     private final LikeRepository likeRepository;
-
+    private final ItemMapper itemMapper;
     @Override
     public void createItem(ItemDto itemDto){
-        Item item = Item.createItem(itemDto);
+//        Item item = Item.createItem(itemDto);
+        Item item = itemMapper.itemDtoToItem(itemDto);
+//        item.setItemStatus(ItemStatus.SELL);
         itemRepository.save(item);
     }
 
@@ -53,7 +56,7 @@ public class ItemServiceImpl implements ItemService{
             throw new IllegalStateException("존재하는 상품이 없습니다");
         }
         //영속상태라 변경감지로 실행됨
-        findItem.get().setItemStatus(ItemStatus.discontinued);
+        findItem.get().setItemStatus(ItemStatus.DISCONTINUED);
 
     }
 }

@@ -25,12 +25,16 @@ public class Item extends JpaBaseEntity {
     private int stockQuantity;
 
     //좋아요
+    //Item - 부모 @OneTOMany
+    //Like - 자식 @ManyToOne (FK 위치 - 주인)
+    //Item 삭제시 -> Like 전파 삭제 -> Cascade
+
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE) // Item 삭제시 좋아요 전파 삭제됨
     private List<Like> likes = new ArrayList<>();
 
 
     @Enumerated(EnumType.STRING)
-    private ItemStatus itemStatus;
+    private ItemStatus itemStatus = ItemStatus.SELL;
 
     //카테고리
 
@@ -49,14 +53,15 @@ public class Item extends JpaBaseEntity {
         this.stockQuantity += quantity;
     }
 
-    // todo : mapper 적용해보기
+    // todo : mapper 적용해보기 -> 완.
     //아이템 생성,
+
     public static Item createItem(ItemDto itemDto){
         Item item = new Item();
         item.setItemStatus(ItemStatus.SELL);
         item.setPrice(itemDto.getPrice());
         item.setItemName(itemDto.getItemName());
-        item.setStockQuantity(itemDto.getCount());
+        item.setStockQuantity(itemDto.getStockQuantity());
         return item;
     }
 }
