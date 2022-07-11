@@ -1,6 +1,8 @@
 package minishop.project.domain.order.service;
 
 import lombok.RequiredArgsConstructor;
+import minishop.project.api.OrderApiController;
+import minishop.project.api.response.FindOrderByMemberResult;
 import minishop.project.domain.item.entity.Item;
 import minishop.project.domain.item.entity.ItemStatus;
 import minishop.project.domain.item.service.ItemService;
@@ -19,6 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +57,7 @@ public class OrderServiceImpl implements  OrderService{
             //아래 메서드에서 Order와 OrderItem 관게 전부해줌
             //해당 Item이 판매중이면 실행
             if(findItem.getItemStatus()== ItemStatus.SELL){
-                OrderItem.createOrderItem(findItem, newOrder, itemDto.getCount());
+                OrderItem.createOrderItem(findItem, newOrder, itemDto.getStockQuantity());
             }
         }
         orderRepository.save(newOrder);
@@ -70,7 +75,6 @@ public class OrderServiceImpl implements  OrderService{
         for (Order order : orders) {
             List<OrderItem> orderItems = order.getOrderItems();
             orderItems.stream().forEach(a -> a.getItem().getItemName()); //getItem()이 아니라, getName()에서 초기화됨 ㅎㅎ
-
         }
         return orders;
     }
@@ -94,5 +98,26 @@ public class OrderServiceImpl implements  OrderService{
             }
         }
         return sum ;
+    }
+
+    //사용자별 조회
+    @Override
+    public FindOrderByMemberResult findAllOrderByMember(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        Member member = memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
+
+
+        List<Order> byMember = orderRepository.findByMember(member);
+        for (Order order : byMember) {
+            List<OrderItem> orderItems = order.getOrderItems();
+            orderItems.stream().forEach(a -> a.getItem().getItemName()); //getItem()이 아니라, getName()에서 초기화됨 ㅎㅎ
+        }
+
+        List<OrderApiController.OrderDto> orderDtos = byMember.stream()
+                .map(o -> new OrderApiController.OrderDto(o))
+                .collect(toList());
+        return new FindOrderByMemberResult(orderDtos,orderDtos.size(),member.getLoginEmail());
+
     }
 }

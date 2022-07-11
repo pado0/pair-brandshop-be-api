@@ -28,18 +28,10 @@ public class OrderJpaRepository {
     public List<Order> findAllWithItemV2(int offset, int limit) {
         return em.createQuery(
                         "select o from Order o",
-                                Order.class)
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
-/*
-        return em.createQuery(
-                        "select o from Order o "+
-                        "join fetch o.ember",
                         Order.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
-*/
     }
+
 }

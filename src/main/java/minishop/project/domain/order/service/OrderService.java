@@ -1,5 +1,6 @@
 package minishop.project.domain.order.service;
 
+import minishop.project.api.response.FindOrderByMemberResult;
 import minishop.project.domain.order.entity.Order;
 import minishop.project.domain.item.dto.ItemDto;
 
@@ -14,4 +15,5 @@ public interface OrderService {
     void cancelOrder(Long orderId);
 
     long findToTalPrice();
+    FindOrderByMemberResult  findAllOrderByMember();
 }

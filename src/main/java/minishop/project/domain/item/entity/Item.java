@@ -34,7 +34,7 @@ public class Item extends JpaBaseEntity {
 
 
     @Enumerated(EnumType.STRING)
-    private ItemStatus itemStatus;
+    private ItemStatus itemStatus = ItemStatus.SELL;
 
     //카테고리
 
@@ -53,14 +53,15 @@ public class Item extends JpaBaseEntity {
         this.stockQuantity += quantity;
     }
 
-    // todo : mapper 적용해보기
+    // todo : mapper 적용해보기 -> 완.
     //아이템 생성,
+
     public static Item createItem(ItemDto itemDto){
         Item item = new Item();
         item.setItemStatus(ItemStatus.SELL);
         item.setPrice(itemDto.getPrice());
         item.setItemName(itemDto.getItemName());
-        item.setStockQuantity(itemDto.getCount());
+        item.setStockQuantity(itemDto.getStockQuantity());
         return item;
     }
 }

@@ -27,4 +27,12 @@ public class Like {
     @JoinColumn(name = "member_id")
     @JsonIgnore
     private Member member;
+
+    //생성
+    public static Like createUpLike(Item item, Member member){
+        Like like = new Like();
+        like.setItem(item);
+        like.setMember(member);
+        return like;
+    }
 }
