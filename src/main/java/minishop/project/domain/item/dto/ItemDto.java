@@ -15,5 +15,4 @@ public class ItemDto {
     private int stockQuantity;
     private Long likeCount;
 
-
 }

@@ -57,10 +57,9 @@ public class OrderApiController {
         //주문 전체 조회 (fetch join)
         List<Order> orders = orderJpaRepository.findAllWithItemV2(offset,limit);
 
-        // todo : 리턴 바로 치고 메소드 레퍼런스로 리팩토링 ->? what 메소드 레퍼런스?
         //Dto로 변환
         List<OrderDto> orderDtos = orders.stream()
-                .map(o -> new OrderDto(o))
+                .map(OrderDto::new)
                 .collect(toList());
         return new Result(orderDtos,orderDtos.size());
     }

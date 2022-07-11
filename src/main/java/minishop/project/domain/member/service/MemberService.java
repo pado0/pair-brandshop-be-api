@@ -44,6 +44,7 @@ public class MemberService {
         return memberRepository.findByLoginEmail(email);
     }
 
+    @Transactional
     public void saveMember(String email, String password, String role){
         memberRepository.save(Member.builder()
                 .loginEmail(email)

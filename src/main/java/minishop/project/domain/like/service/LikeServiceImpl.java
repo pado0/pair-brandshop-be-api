@@ -34,7 +34,6 @@ public class LikeServiceImpl implements LikeService{
         //memeber 찾기
         Member member = memberRepository.findByLoginEmail(id).orElseThrow(CUserNotFoundException::new);
 
-        //:todo optional 처리 해줘야함 -> 완료
         //Item 찾기
         Item item = itemRepository.findById(itemId).orElseThrow(()->new IllegalStateException("상품 ID를 확인해주세요"));
 

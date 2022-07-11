@@ -33,8 +33,8 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/helloworld/**").permitAll()
                         // 그 외 나머지 요청은 모두 인증된 회원만 접근 가능
                         // 다음과 같이 hasRole 내에서 관리됨 authority – the authority to require (i.e. ROLE_USER, ROLE_ADMIN, etc).
-                        .anyRequest().permitAll()//hasRole("USER") // todo: Admin은 주문정보를 전체 다 조회할 수 있음. User는 자기꺼 밖에 조회 못함.
-//                        .anyRequest().hasRole("USER") // todo: hasRole 범위 정하기
+                        .anyRequest().permitAll()//hasRole("USER")
+//                        .anyRequest().hasRole("USER")
                .and() // jwt token 필터를 id/password 인증 필터 전에 넣음
                     .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
