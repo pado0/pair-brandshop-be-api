@@ -17,16 +17,23 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public void saveCategory(Category category, Long parentCategoryId) {
-        Optional<Category> parentCategory = categoryRepository.findById(parentCategoryId);
+    public Category saveCategory(Category category, Long parentCategoryId) {
 
-        // parent 세팅해주기, parent의 child 세팅해주기.
-        if (parentCategory.isPresent()) {
-            category.setParent(parentCategory.get());
-            parentCategory.get().addChildCategory(category);
+        if (parentCategoryId == null){
+            category.setParent(null);
+            return categoryRepository.save(category);
         }
 
-        categoryRepository.save(category);
+        Optional<Category> parentCategory = categoryRepository.findById(parentCategoryId);
+        if (parentCategory.isEmpty()) {
+            return null;
+        }
+
+        // parent 세팅해주기, parent의 child 세팅해주기.
+        category.setParent(parentCategory.get());
+        parentCategory.get().addChildCategory(category);
+
+        return categoryRepository.save(category);
     }
 
     public List<Category> findAllCategories() {

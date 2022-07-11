@@ -14,7 +14,6 @@ public class CustomMemberDetailService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
-    // todo: loadUserByUsername 부분 레퍼지토리랑 잘 연결되는지 확인하기, 커스텀 exception으로 변경하기
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         try {

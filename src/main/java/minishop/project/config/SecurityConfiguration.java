@@ -12,7 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// todo : 문제가 있으면 이 파일 먼저 살펴보기. 최신 코드로 리펙한것이지만 깨름직
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {

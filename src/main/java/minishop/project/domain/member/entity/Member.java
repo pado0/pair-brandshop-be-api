@@ -18,8 +18,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// todo : 엔티티 자체에 만료확인같은 처리가 들어간다. 비즈니스로직!?
-
 @Builder
 @Entity
 @Getter @Setter
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
 public class Member extends JpaBaseEntity implements UserDetails {
 
     @Id @GeneratedValue
-    private Long id; // todo: 이부분 String + 임의값으로 리펙토링하기
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
     private String loginEmail;
@@ -48,7 +46,8 @@ public class Member extends JpaBaseEntity implements UserDetails {
 
 
     // 멤버가 가진 권한 정보 리스트로 저장
-    @ElementCollection(fetch = FetchType.EAGER )// todo: 왜 이렇게 선언하는지 확인
+    // RDB는 컬렉션 형태를 저장할 수 없으므로 본 어노테이션을 사용해 별도 테이블로 권한을 관리해준다.
+    @ElementCollection(fetch = FetchType.EAGER )
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
@@ -57,13 +56,12 @@ public class Member extends JpaBaseEntity implements UserDetails {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
-    // todo : getpassword는 막아야되나?
     @Override
     public String getPassword() {
         return this.loginPassword;
     }
 
-    // todo : JsonProperty가 뭔지 확인하기
+    // JsonProperty가 뭔지 확인하기 : 응답 요청, 쓰기일때만 확인하고, 응답값엔 포함하지 않는다.
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getUsername() {
