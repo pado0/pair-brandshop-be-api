@@ -29,7 +29,7 @@ public class OrderApiController {
     @PostMapping("/v1/orders")
     public String createOrder(@RequestBody List<ItemDto> list){
         orderService.createOrder(list);
-        return "Order Creation Completed";
+        return "Order Creation Completed2";
     }
 
     //주문 SELECT1
